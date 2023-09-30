@@ -65,6 +65,8 @@ var GetAllTypeBusiness = func() DataResponseGetAllTypeBusiness{
     return dataResponseGetAllTypeBusiness;
 }
 var CreateTypeBusiness = func (typeBusiness TypeBusiness) DataResponseCreateTypeBusinesss {
+   var name int
+   name++
    
     dataResponseCreateTypeBusinesss := DataResponseCreateTypeBusinesss{}
     dataResponseCreateTypeBusinesss.MessageResponse = MessageResponse{}

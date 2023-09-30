@@ -10,14 +10,16 @@ type TypeBusiness struct {
     TypeBusinessName       string  `json:"TypeBusinessName"`
     Description            string  `json:"description"`
     NameServiceProducers   string  `json:"NameServiceProducers"`
-    UseMultipleSlotBooking int    `json:"UseMultipleSlotBooking"`
-    MarkDeletion           int    `json:"MarkDeletion"`
-    UseSelectSlotService   int    `json:"UseSelectSlotService"`
+    UseMultipleSlotBooking bool    `json:"UseMultipleSlotBooking"`
+    MarkDeletion           bool    `json:"MarkDeletion"`
+    UseSelectSlotService   bool    `json:"UseSelectSlotService"`
 }
 
 
 var GetAllTypeBusiness = func() []TypeBusiness{
    
+    //
+
     statement := "SELECT TypeBusinessID, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness WHERE MarkDeletion=0;"
 
     rows, err := GetDB().Query(statement)

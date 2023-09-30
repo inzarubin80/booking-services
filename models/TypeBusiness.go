@@ -1,7 +1,8 @@
 package models
+
 import (
-    "database/sql"
-    "log"
+	"database/sql"
+	"log"
 )
 
 type TypeBusiness struct {
@@ -9,40 +10,15 @@ type TypeBusiness struct {
     TypeBusinessName       string  `json:"TypeBusinessName"`
     Description            string  `json:"description"`
     NameServiceProducers   string  `json:"NameServiceProducers"`
-    UseMultipleSlotBooking bool    `json:"UseMultipleSlotBooking"`
-    MarkDeletion           bool    `json:"MarkDeletion"`
-    UseSelectSlotService   bool    `json:"UseSelectSlotService"`
+    UseMultipleSlotBooking int    `json:"UseMultipleSlotBooking"`
+    MarkDeletion           int    `json:"MarkDeletion"`
+    UseSelectSlotService   int    `json:"UseSelectSlotService"`
 }
 
-type DataResponseGetAllTypeBusiness struct {
-    MessageResponse MessageResponse `json:"MessageResponse"`
-    Data []TypeBusiness `json:"Data"`
-}
 
-type DataResponseCreateTypeBusinesss struct {
-    MessageResponse MessageResponse `json:"MessageResponse"`
-    Data int64 `json:"data"`
-}
-
-type DataResponseGetTypeBusiness struct {
-    MessageResponse MessageResponse `json:"MessageResponse"`
-    Data TypeBusiness `json:"data"`
-}
-
-type DataResponseUpdateTypeBusiness struct {
-    MessageResponse MessageResponse `json:"MessageResponse"`
-}
-
-type DataResponseDeleteTypeBusiness struct {
-    MessageResponse MessageResponse `json:"MessageResponse"`
-}
-
-var GetAllTypeBusiness = func() DataResponseGetAllTypeBusiness{
+var GetAllTypeBusiness = func() []TypeBusiness{
    
-    dataResponseGetAllTypeBusiness := DataResponseGetAllTypeBusiness{}
-    dataResponseGetAllTypeBusiness.MessageResponse = MessageResponse{}
-
-    statement := "SELECT TypeBusinessID, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness;"
+    statement := "SELECT TypeBusinessID, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness WHERE MarkDeletion=0;"
 
     rows, err := GetDB().Query(statement)
     if err != nil {
@@ -61,17 +37,13 @@ var GetAllTypeBusiness = func() DataResponseGetAllTypeBusiness{
         typeBusinesses = append(typeBusinesses, typeBusiness)
     }
 
-    dataResponseGetAllTypeBusiness.Data=typeBusinesses;
-    return dataResponseGetAllTypeBusiness;
+
+    return typeBusinesses;
 }
-var CreateTypeBusiness = func (typeBusiness TypeBusiness) DataResponseCreateTypeBusinesss {
-   var name int
-   name++
-   
-    dataResponseCreateTypeBusinesss := DataResponseCreateTypeBusinesss{}
-    dataResponseCreateTypeBusinesss.MessageResponse = MessageResponse{}
-    statement := "INSERT INTO TypeBusiness (TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService) OUTPUT INSERTED.TypeBusinessID VALUES (@TypeBusinessName, @Description, @NameServiceProducers, @UseMultipleSlotBooking, @MarkDeletion, @UseSelectSlotService);"
-    result, err := GetDB().Exec(statement,
+var CreateTypeBusiness = func (typeBusiness TypeBusiness) int64 {
+
+    statement := "INSERT INTO TypeBusiness (TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService) OUTPUT INSERTED.TypeBusinessID VALUES (@TypeBusinessName, @Description, @NameServiceProducers, @UseMultipleSlotBooking, @MarkDeletion, @UseSelectSlotService); select ID = convert(bigint, SCOPE_IDENTITY())"
+    rows, err := GetDB().Query(statement,
         sql.Named("TypeBusinessName", typeBusiness.TypeBusinessName),
         sql.Named("Description", typeBusiness.Description),
         sql.Named("NameServiceProducers", typeBusiness.NameServiceProducers),
@@ -79,58 +51,44 @@ var CreateTypeBusiness = func (typeBusiness TypeBusiness) DataResponseCreateType
         sql.Named("MarkDeletion", typeBusiness.MarkDeletion),
         sql.Named("UseSelectSlotService", typeBusiness.UseSelectSlotService),
     )
-
+    
     if err != nil {
-        log.Fatal(err)
-        return dataResponseCreateTypeBusinesss
-    }
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	var lastInsertId1 int64
+	for rows.Next() {
+		rows.Scan(&lastInsertId1)
+	}
 
-    id, err := result.LastInsertId()
-    if err != nil {
-        log.Fatal(err)
-        return  dataResponseCreateTypeBusinesss
-    }
-
-    typeBusiness.TypeBusinessID = id
-    dataResponseCreateTypeBusinesss.Data=id;
-    return dataResponseCreateTypeBusinesss
-
+    return lastInsertId1
 }
 
-var GetTypeBusiness = func(id int) DataResponseGetTypeBusiness{
+var GetTypeBusiness = func(id int) *TypeBusiness{
     
-    dataResponseGetTypeBusiness := DataResponseGetTypeBusiness{}
-    dataResponseGetTypeBusiness.MessageResponse = MessageResponse{}
+    typeBusiness:= &TypeBusiness{}
 
     statement := "SELECT TypeBusinessID, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness WHERE TypeBusinessID = @TypeBusinessID;"
     rows, err := GetDB().Query(statement, sql.Named("TypeBusinessID", id))
     if err != nil {
         log.Fatal(err)
-        return dataResponseGetTypeBusiness;
     }
     defer rows.Close()
-
-    var typeBusiness TypeBusiness
-
     for rows.Next() {
         err = rows.Scan(&typeBusiness.TypeBusinessID, &typeBusiness.TypeBusinessName, &typeBusiness.Description, &typeBusiness.NameServiceProducers, &typeBusiness.UseMultipleSlotBooking, &typeBusiness.MarkDeletion, &typeBusiness.UseSelectSlotService)
         if err != nil {
             log.Fatal(err)
-            return dataResponseGetTypeBusiness;
         }
     }
 
-    dataResponseGetTypeBusiness.Data = typeBusiness;
-    return dataResponseGetTypeBusiness;
+    return typeBusiness;
 }
 
-var UpdateTypeBusiness =  func(typeBusiness *TypeBusiness) DataResponseUpdateTypeBusiness {
+var UpdateTypeBusiness =  func(typeBusiness *TypeBusiness) TypeBusiness {
    
-    dataResponseupdateTypeBusiness := DataResponseUpdateTypeBusiness{}
-    dataResponseupdateTypeBusiness.MessageResponse = MessageResponse{}
-  
     statement := "UPDATE TypeBusiness SET TypeBusinessName = @TypeBusinessName, Description = @Description, NameServiceProducers = @NameServiceProducers, UseMultipleSlotBooking = @UseMultipleSlotBooking, MarkDeletion = @MarkDeletion, UseSelectSlotService = @UseSelectSlotService WHERE TypeBusinessID = @TypeBusinessID;"
     _, err := GetDB().Exec(statement,
+       
         sql.Named("TypeBusinessID", typeBusiness.TypeBusinessID),
         sql.Named("TypeBusinessName", typeBusiness.TypeBusinessName),
         sql.Named("Description", typeBusiness.Description),
@@ -142,17 +100,17 @@ var UpdateTypeBusiness =  func(typeBusiness *TypeBusiness) DataResponseUpdateTyp
 
     if err != nil {
         log.Fatal(err)
-        return dataResponseupdateTypeBusiness
+        return *typeBusiness
     }
 
-    return dataResponseupdateTypeBusiness;
+    return *typeBusiness;
 }
 
-var DeleteTypeBusiness = func(id int, markDeletion bool) DataResponseDeleteTypeBusiness {
-
-    dataResponseDeleteTypeBusiness := DataResponseDeleteTypeBusiness{}
-    dataResponseDeleteTypeBusiness.MessageResponse = MessageResponse{}
+var DeleteTypeBusiness = func(id int, markDeletion int) int {
   
+    if markDeletion!=0 {
+        markDeletion = 1 
+    }
     statement := "UPDATE TypeBusiness SET MarkDeletion = @MarkDeletion WHERE TypeBusinessID = @TypeBusinessID;"
     _, err := GetDB().Exec(statement,
         sql.Named("TypeBusinessID", id),
@@ -161,7 +119,6 @@ var DeleteTypeBusiness = func(id int, markDeletion bool) DataResponseDeleteTypeB
 
     if err != nil {
         log.Fatal(err)
-        return dataResponseDeleteTypeBusiness
     }
-    return dataResponseDeleteTypeBusiness;
+    return markDeletion;
 }

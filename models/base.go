@@ -4,9 +4,7 @@ import (
 	"os"
 	"log"
 	"fmt"
-	_ "github.com/microsoft/go-mssqldb"
-	_ "booking-services/config"	
-	
+	_ "github.com/microsoft/go-mssqldb"	
 )
 
 var db *sql.DB

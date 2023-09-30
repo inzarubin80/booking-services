@@ -5,12 +5,18 @@ import (
     "github.com/gorilla/mux"
     "booking-services/controllers"
     "booking-services/models"	
+    "github.com/joho/godotenv"
+
 )
 
 
 
 func main() {
     
+    
+    if err := godotenv.Load(); err != nil {
+        log.Print("No .env file found")
+    }
     
     router := mux.NewRouter()
     router.HandleFunc("/typebusiness", controllers.GetAllTypeBusiness).Methods("GET")

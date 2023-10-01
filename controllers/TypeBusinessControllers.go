@@ -23,6 +23,7 @@ var GetTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
 	id, err := strconv.Atoi(vars["id"]);
 
 	if err != nil {
+		u.Message(false, "Error while decoding id")
 		u.Respond(w, u.Message(false, "Error while decoding id"))
 		return
 	}
@@ -42,7 +43,7 @@ var CreateTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
 	}
 	id := models.CreateTypeBusiness(*typeBusiness);
 	resp := u.Message(true, "success")
-	resp["data"] = id
+	resp["id"] = id
 	u.Respond(w, resp)
 }
 
@@ -61,7 +62,8 @@ var  DeleteTypeBusiness = func (w http.ResponseWriter, r *http.Request) {
 	}
 	MarkDeletion = models.DeleteTypeBusiness(id, MarkDeletion);
 	resp := u.Message(true, "success")
-	resp["data"] = MarkDeletion
+	resp["MarkDeletion"] = MarkDeletion
 	u.Respond(w, resp)
+	
 }
 

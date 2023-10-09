@@ -4,36 +4,43 @@ import (
 	"booking-services/models"
 	u "booking-services/utils"
 	"encoding/json"
+	"github.com/gorilla/mux"
+	"fmt"
+//	"log"
 	"net/http"
 	"strconv"
-	"github.com/gorilla/mux"
 )
 
-var GetAllTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
-
-	typeBusinesses := models.GetAllTypeBusiness();
-	resp := u.Message(true, "success")
-	resp["data"] = typeBusinesses
+var GetAllTypeBusiness = func(w http.ResponseWriter, r *http.Request) {
+	typeBusinesses, err := models.GetAllTypeBusiness()
+	var resp map[string]interface{}
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		resp = u.Message(false, fmt.Sprintf("server error %s", err.Error()))
+	} else {
+		resp = u.Message(true, "success")
+		resp["data"] = typeBusinesses
+	}
 	u.Respond(w, resp)
 }
 
-var GetTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
+var GetTypeBusiness = func(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"]);
+	id, err := strconv.Atoi(vars["id"])
 
 	if err != nil {
 		u.Message(false, "Error while decoding id")
 		u.Respond(w, u.Message(false, "Error while decoding id"))
 		return
 	}
-	typeBusiness := models.GetTypeBusiness(id);
+	typeBusiness := models.GetTypeBusiness(id)
 	resp := u.Message(true, "success")
 	resp["data"] = typeBusiness
 	u.Respond(w, resp)
 }
 
-var CreateTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
+var CreateTypeBusiness = func(w http.ResponseWriter, r *http.Request) {
 
 	typeBusiness := &models.TypeBusiness{}
 	err := json.NewDecoder(r.Body).Decode(typeBusiness)
@@ -41,29 +48,29 @@ var CreateTypeBusiness = func (w http.ResponseWriter, r *http.Request)  {
 		u.Respond(w, u.Message(false, "Error while decoding request body"))
 		return
 	}
-	id := models.CreateTypeBusiness(*typeBusiness);
+	id := models.CreateTypeBusiness(*typeBusiness)
 	resp := u.Message(true, "success")
 	resp["id"] = id
+
 	u.Respond(w, resp)
 }
 
-var  DeleteTypeBusiness = func (w http.ResponseWriter, r *http.Request) {
+var DeleteTypeBusiness = func(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	MarkDeletion, err := strconv.Atoi(vars["MarkDeletion"]);
+	MarkDeletion, err := strconv.Atoi(vars["MarkDeletion"])
 	if err != nil {
 		u.Respond(w, u.Message(false, "Error while decoding MarkDeletion"))
 		return
 	}
-	id, err := strconv.Atoi(vars["id"]);
+	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
 		u.Respond(w, u.Message(false, "Error while decoding id"))
 		return
 	}
-	MarkDeletion = models.DeleteTypeBusiness(id, MarkDeletion);
+	MarkDeletion = models.DeleteTypeBusiness(id, MarkDeletion)
 	resp := u.Message(true, "success")
 	resp["MarkDeletion"] = MarkDeletion
 	u.Respond(w, resp)
-	
-}
 
+}

@@ -16,15 +16,13 @@ type TypeBusiness struct {
 }
 
 
-var GetAllTypeBusiness = func() []TypeBusiness{
+var GetAllTypeBusiness = func() ([]TypeBusiness, error){
    
-    //
-
-    statement := "SELECT TypeBusinessID, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness WHERE MarkDeletion=0;"
+    statement := "SELECT TypeBusinessID_, TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService FROM TypeBusiness WHERE MarkDeletion=0;"
 
     rows, err := GetDB().Query(statement)
     if err != nil {
-        log.Fatal(err)
+        return nil, err
     }
     defer rows.Close()
 
@@ -34,14 +32,14 @@ var GetAllTypeBusiness = func() []TypeBusiness{
         var typeBusiness TypeBusiness
         err = rows.Scan(&typeBusiness.TypeBusinessID, &typeBusiness.TypeBusinessName, &typeBusiness.Description, &typeBusiness.NameServiceProducers, &typeBusiness.UseMultipleSlotBooking, &typeBusiness.MarkDeletion, &typeBusiness.UseSelectSlotService)
         if err != nil {
-            log.Fatal(err)
+            return nil, err
         }
         typeBusinesses = append(typeBusinesses, typeBusiness)
     }
 
-
-    return typeBusinesses;
+    return typeBusinesses, nil;
 }
+
 var CreateTypeBusiness = func (typeBusiness TypeBusiness) int64 {
 
     statement := "INSERT INTO TypeBusiness (TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService) OUTPUT INSERTED.TypeBusinessID VALUES (@TypeBusinessName, @Description, @NameServiceProducers, @UseMultipleSlotBooking, @MarkDeletion, @UseSelectSlotService); select ID = convert(bigint, SCOPE_IDENTITY())"

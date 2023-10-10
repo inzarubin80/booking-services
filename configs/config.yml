@@ -1,0 +1,9 @@
+port: "8000"
+
+db:
+    username: "BookingServices"
+    host: "NB-PF3728FS"
+    port: ""
+    dbname: "BookingServices"
+    sslmode: "disable"
+    pass: "aaa"

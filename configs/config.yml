@@ -2,8 +2,9 @@ port: "8000"
 
 db:
     username: "BookingServices"
-    host: "NB-PF3728FS"
-    port: ""
+    host: 'NB-PF3728FS\SQL2022'
+    instance: 'SQL2022'
+    port: "1433"
     dbname: "BookingServices"
     sslmode: "disable"
     pass: "aaa"

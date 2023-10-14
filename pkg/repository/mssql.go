@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	Host     string
+	Instance string
     Port     string
 	Username string
 	Password string
@@ -17,10 +18,11 @@ type Config struct {
 }
 
 func NewMSsqlDB(cfg Config) (*sqlx.DB, error) {
-	db, err := sqlx.Open("mssql", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
-		cfg.Host, 
-		cfg.Port, 
-		cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
+
+	connStr:=fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
+	cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode);
+
+	db, err := sqlx.Open("mssql", connStr)
 	if err != nil {
 		return nil, err
 	}

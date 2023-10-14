@@ -16,9 +16,8 @@ type TypeBusiness interface {
 	Update(id int, item booking.UpdateTypeBusinessInput) error
 }
 
-
 type Repository struct {
-	TypeBusiness
+	TypeBusiness 
 }
 
 func NewRepository(db *sqlx.DB) *Repository {

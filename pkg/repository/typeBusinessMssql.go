@@ -87,7 +87,6 @@ func (r *TypeBusinessMSSQL) Update(id int, item booking.UpdateTypeBusinessInput)
 	UseMultipleSlotBooking = $4, 
 	UseSelectSlotService = $5
 	WHERE TypeBusinessID = $6`,typeBusinessTable)
-
 	_, err := r.db.Exec(query, item.TypeBusinessName, item.Description, item.NameServiceProducers, item.UseMultipleSlotBooking, item.UseSelectSlotService, id)
 	return err
 

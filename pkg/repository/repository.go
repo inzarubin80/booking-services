@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	typeBusinessTable = "TypeBusiness"
+	typeBusinessTable = "dbo.TypeBusiness"
 	usersTable        = "users"
 )
 

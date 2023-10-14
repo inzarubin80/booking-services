@@ -35,16 +35,9 @@ func (r *TypeBusinessMSSQL) Create(item booking.TypeBusiness) (int, error) {
 
 func (r *TypeBusinessMSSQL) GetAll() ([]booking.TypeBusiness, error) {
 	var items []booking.TypeBusiness
-	query := fmt.Sprintf(`SELECT 
-	TypeBusinessID, 
-	TypeBusinessName, 
-	Description, 
-	NameServiceProducers, 
-	UseMultipleSlotBooking, 
-	MarkDeletion, 
-	UseSelectSlotService 
-		FROM %s 
-	WHERE MarkDeletion=0;`, typeBusinessTable)
+	query := fmt.Sprintf(`SELECT TypeBusinessID, TypeBusinessName, 
+	Description, NameServiceProducers, UseMultipleSlotBooking, 
+	MarkDeletion, UseSelectSlotService FROM %s WHERE MarkDeletion=0`, typeBusinessTable)
 	if err := r.db.Select(&items, query); err != nil {
 		return nil, err
 	}

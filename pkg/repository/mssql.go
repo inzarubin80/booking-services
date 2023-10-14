@@ -19,8 +19,12 @@ type Config struct {
 
 func NewMSsqlDB(cfg Config) (*sqlx.DB, error) {
 
-	connStr:=fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
-	cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode);
+	//connStr:=fmt.Sprintf("host=%s  user=%s dbname=%s password=%s sslmode=%s",
+	//cfg.Host, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode);
+
+
+	connStr := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s", cfg.Username, cfg.Password, cfg.Host, cfg.Instance, cfg.DBName)
+
 
 	db, err := sqlx.Open("mssql", connStr)
 	if err != nil {

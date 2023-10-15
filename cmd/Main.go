@@ -1,5 +1,4 @@
 package main
-
 import (
 	"context"
 	"log"
@@ -45,7 +44,7 @@ func main() {
 		}
 	}()
 
-	log.Println("TodoApp Started")
+	log.Println("booking-services started")
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
@@ -63,8 +62,6 @@ func main() {
 }
 
 func initConfig() error {
-//	viper.AddConfigPath("$HOME/configs")
-
 	viper.AddConfigPath("../configs")
 	viper.SetConfigName("config")
 	return viper.ReadInConfig()

@@ -20,17 +20,17 @@ func (r *TypeBusinessMSSQL) Create(item booking.TypeBusiness) (int, error) {
 		return 0, err
 	}
 
-	var itemId int
+	var TypeBusinessID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService) 
-	values ($1, $2, $3,$4,$5,$6) RETURNING id`, typeBusinessTable)
+	values ($1, $2, $3,$4,$5,$6) RETURNING TypeBusinessID`, typeBusinessTable)
 	row := tx.QueryRow(createItemQuery, item.TypeBusinessName, item.Description, item.NameServiceProducers, item.UseMultipleSlotBooking, item.MarkDeletion, item.UseSelectSlotService)
-	err = row.Scan(&itemId)
+	err = row.Scan(&TypeBusinessID)
 	if err != nil {
 		tx.Rollback()
 		return 0, err
 	}
-	return itemId, tx.Commit()
+	return TypeBusinessID, tx.Commit()
 }
 
 func (r *TypeBusinessMSSQL) GetAll() ([]booking.TypeBusiness, error) {

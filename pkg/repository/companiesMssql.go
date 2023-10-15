@@ -19,17 +19,17 @@ func (r *CompaniesMSSQL) Create(item booking.Companies) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	var itemId int
+	var CompanieId int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(CompanieName, TIN, MarkDeletion, UserID,TypeBusinessID) 
-	values ($1, $2) RETURNING id`, companiesTable)
+	values ($1, $2) RETURNING CompanieId`, companiesTable)
 	row := tx.QueryRow(createItemQuery, item.CompanieName, item.TIN, item.UserID, item.TypeBusinessID)
-	err = row.Scan(&itemId)
+	err = row.Scan(&CompanieId)
 	if err != nil {
 		tx.Rollback()
 		return 0, err
 	}
-	return itemId, tx.Commit()
+	return CompanieId, tx.Commit()
 }
 
 func (r *CompaniesMSSQL) GetAll() ([]booking.Companies, error) {

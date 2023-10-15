@@ -1,4 +1,5 @@
 package main
+
 import (
 	"context"
 	"log"
@@ -25,8 +26,7 @@ func main() {
 		SSLMode:  viper.GetString("db.sslmode"),
 		Password: viper.GetString("db.pass"),
 		Instance: viper.GetString("db.instance"),
-		Port: viper.GetString("db.port"),
-		
+		Port: viper.GetString("db.port"),	
 	})
 
 	if err != nil {

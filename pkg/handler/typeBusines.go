@@ -33,7 +33,7 @@ func (h *Handler) createTypeBusines(c *gin.Context) {
 		return
 	}
 
-	id, err := h.services.Create(input)
+	id, err := h.services.TypeBusiness.Create(input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -62,14 +62,6 @@ type getAllTypeBusinesResponse struct {
 // @Router /api/lists [get]
 func (h *Handler) getAllTypeBusines(c *gin.Context) {
 	
-	/*
-	userId, err := getUserId(c)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-	*/
-
 	lists, err := h.services.TypeBusiness.GetAll()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())

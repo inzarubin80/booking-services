@@ -21,11 +21,18 @@ type TypeBusiness interface {
 	Update(id int, input booking.UpdateTypeBusinessInput) error
 }
 
+type Companies interface {
+	Create(item booking.Companies) (int, error)
+	GetAll() ([]booking.Companies, error)
+	GetById(id int) (booking.Companies, error)
+	Delete(id int) error
+	Update(id int, input booking.UpdateCompaniesInput) error
+}
 
 type Service struct {
 	Authorization
 	TypeBusiness
-
+	Companies
 	
 }
 
@@ -33,5 +40,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		TypeBusiness:NewTypeBusinessService(repos.TypeBusiness),
+		Companies:NewCompaniesService(repos.Companies),
 	}
 }

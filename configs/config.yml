@@ -1,10 +1,10 @@
 port: "8000"
 
 db:
-    username: "BookingServices"
+    username: "userService"
     host: 'LAPTOP-E5NQ8N3L'
     instance: 'SQL2022'
     port: ""
     dbname: "BookingServices"
     sslmode: "disable"
-    pass: "sss"
+    pass: ""

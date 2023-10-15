@@ -3,13 +3,13 @@ package booking
 import "errors"
 
 type TypeBusiness struct {
-    TypeBusinessID         int     `json:"TypeBusinessID"`
-    TypeBusinessName       string  `json:"TypeBusinessName"`
-    Description            string  `json:"description"`
-    NameServiceProducers   string  `json:"NameServiceProducers"`
-    UseMultipleSlotBooking bool    `json:"UseMultipleSlotBooking"`
-    MarkDeletion           bool    `json:"MarkDeletion"`
-    UseSelectSlotService   bool    `json:"UseSelectSlotService"`
+    TypeBusinessID         int64    `json:"TypeBusinessID" db:"TypeBusinessID"`
+    TypeBusinessName       string  `json:"TypeBusinessName" db:"TypeBusinessName"`
+    Description            string  `json:"Description" db:"Description"`
+    NameServiceProducers   string  `json:"NameServiceProducers" db:"NameServiceProducers"`
+    UseMultipleSlotBooking bool    `json:"UseMultipleSlotBooking" db:"UseMultipleSlotBooking"`
+    MarkDeletion           bool    `json:"MarkDeletion" db:"MarkDeletion"`
+    UseSelectSlotService   bool    `json:"UseSelectSlotService" db:"UseSelectSlotService"`
 }
 
 

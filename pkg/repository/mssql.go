@@ -17,11 +17,13 @@ type Config struct {
 	SSLMode  string
 }
 
-func NewMSsqlDB(cfg Config) (*sqlx.DB, error) {
+func NewMSsqlDB(cfg Config) (*sqlx.DB, error)  {
 
-	//connStr:=fmt.Sprintf("host=%s  user=%s dbname=%s password=%s sslmode=%s database=%s",
+	connString := fmt.Sprintf("server=%s; database=%s",
+	cfg.Host, cfg.DBName)
 
-	connString := fmt.Sprintf("mssql://%s:%s@%s/%s", cfg.Username,cfg.Password, cfg.Host, cfg.DBName)
+	//connString = fmt.Sprintf("server=%s;user id=%s;password=%s;database=%s",
+      //  cfg.Host, cfg.Username, cfg.Password, cfg.DBName)
 
 	db, err := sqlx.Open("mssql", connString)
 	if err != nil {

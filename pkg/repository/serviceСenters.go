@@ -61,10 +61,11 @@ func (r *ServiceСentersMSSQL) Delete(itemId int, markDeletion bool) error {
 }
 
 func (r *ServiceСentersMSSQL) Update(id int, item booking.UpdateServiceСentersInput) error {
+	
 	query := fmt.Sprintf(`UPDATE %s  
 	SET ServiceСentreName = $1, 
 	Location = $2,
-	WHERE TypeBusinessID = $3`,serviceСentersTable)
+	WHERE ServiceСenterID = $3`,serviceСentersTable)
 	_, err := r.db.Exec(query, item.ServiceСentreName, item.Location, id)
 	return err
 

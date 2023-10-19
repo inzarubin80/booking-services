@@ -9,6 +9,7 @@ const (
 	companiesTable	= "Companies"
 	usersTable	= "users"
 	serviceСentersTable = "ServiceСenters"
+	serviceGroupsTable = "ServiceGroups"
 )
 
 type TypeBusiness interface {
@@ -35,6 +36,13 @@ type ServiceСenters interface {
 	Update(id int, item booking.UpdateServiceСentersInput) error
 }
 
+type ServiceGroups interface {
+	Create(item booking.ServiceGroups) (int, error)
+	GetAll() ([]booking.ServiceGroups, error)
+	GetById(id int) (booking.ServiceGroups, error)
+	Delete(id int, markDeletion bool) error
+	Update(id int, item booking.UpdateServiceGroupsInput) error
+}
 
 type Authorization interface {
 	CreateUser(user booking.User) (int, error)
@@ -46,6 +54,7 @@ type Repository struct {
 	Authorization
 	Companies
 	ServiceСenters
+	ServiceGroups
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -54,5 +63,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthMssql(db),
 		Companies: NewCompaniesMSSQL(db),
 		ServiceСenters: NewServiceСentersMSSQL(db),
+		ServiceGroups: NewServiceGroupsMSSQL(db),
 	}
 }

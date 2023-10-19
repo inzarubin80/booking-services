@@ -56,6 +56,21 @@ type UpdateServiceСentersInput struct {
     Location string `json:"Location" db:"Location"`
 }
 
+type ServiceGroups struct {
+    ServiceGroupID int64 `json:"ServiceGroupID" db:"ServiceGroupID"`
+    ServiceGroupName int64 `json:"ServiceGroupName" db:"ServiceGroupName"`  
+    Description   string `json:"Description" db:"Description"`
+    MarkDeletion    bool `json:"MarkDeletion" db:"MarkDeletion"`
+    TypeBusinessID int64 `json:"TypeBusinessID" db:"TypeBusinessID"`
+}
+
+type UpdateServiceGroupsInput struct {
+    ServiceGroupName int64 `json:"ServiceGroupName" db:"ServiceGroupName"`  
+    Description   string `json:"ServiceСentreName" db:"ServiceСentreName"`
+    TypeBusinessID int64 `json:"TypeBusinessID" db:"TypeBusinessID"`
+}
+
+
 func (i UpdateTypeBusinessInput) Validate() error {
 	if i.TypeBusinessName == nil {
 		return errors.New("update structure has no values")

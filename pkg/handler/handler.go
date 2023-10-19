@@ -54,7 +54,19 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			serviceСenters.DELETE("/:id", h.deleteServiceСenter)
 		}		
 
+		serviceGroups := api.Group("/serviceGroups")
+		{
+			serviceGroups.POST("/", h.createServiceGroup)
+			serviceGroups.GET("/", h.getAllServiceGroups)
+			serviceGroups.GET("/:id", h.getServiceGroupById)
+			serviceGroups.PUT("/:id", h.updateServiceGroup)
+			serviceGroups.DELETE("/:id", h.deleteServiceGroup)
+		}
+		
+		
 
+		
+		
 	}
 	return router
 }

@@ -37,12 +37,21 @@ type ServiceСenters interface {
 	Update(id int, input booking.UpdateServiceСentersInput) error
 }
 
+type ServiceGroups interface {
+	Create(item booking.ServiceGroups) (int, error)
+	GetAll() ([]booking.ServiceGroups, error)
+	GetById(id int) (booking.ServiceGroups, error)
+	Delete(id int) error
+	Update(id int, input booking.UpdateServiceGroupsInput) error
+}
+
 
 type Service struct {
 	Authorization
 	TypeBusiness
 	Companies
 	ServiceСenters
+	ServiceGroups
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -51,5 +60,7 @@ func NewService(repos *repository.Repository) *Service {
 		TypeBusiness:NewTypeBusinessService(repos.TypeBusiness),
 		Companies:NewCompaniesService(repos.Companies),
 		ServiceСenters:NewServiceСentersService(repos.ServiceСenters),
+		ServiceGroups:NewServiceGroupsServic(repos.ServiceGroups),
+		
 	}
 }

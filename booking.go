@@ -79,8 +79,21 @@ func (i UpdateTypeBusinessInput) Validate() error {
 }
 
 type User struct {
-	Id       int    `json:"-" db:"id"`
+	Id       int    `json:"Id" db:"id"`
 	Name     string `json:"name" binding:"required"`
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+}
+
+type ServiceProducers struct {
+	ServiceProducerID      int    `json:"ServiceProducerID" db:"ServiceProducerID"`
+	ServiceProducerName    string `json:"ServiceProducerName" binding:"ServiceProducerName"`
+	Description string `json:"Description" binding:"Description"`
+	MarkDeletion string `json:"MarkDeletion" binding:"MarkDeletion"`
+    ServiceCenterID string `json:"ServiceCenterID" binding:"ServiceCenterID"`
+}
+
+type UpdateServiceProducersInput struct {
+    ServiceProducerName int64 `json:"ServiceProducerName" db:"ServiceProducerName"`  
+    Description   string `json:"Description" db:"Description"`
 }

@@ -53,6 +53,24 @@ type ServiceProducers interface {
 	Update(id int, input booking.UpdateServiceProducersInput) error
 }
 
+type ServiceItems interface {
+	Create(item booking.ServiceItems) (int, error)
+	GetAll() ([]booking.ServiceItems, error)
+	GetById(id int) (booking.ServiceItems, error)
+	Delete(id int) error
+	Update(id int, input booking.UpdateServiceItemsInput) error
+}
+
+type Slots interface {
+	Create(item booking.Slots) (int, error)
+	GetAll() ([]booking.Slots, error)
+	GetById(id int) (booking.Slots, error)
+	Delete(id int) error
+	Update(id int, input booking.UpdateSlotsInput) error
+
+}
+
+
 
 type Service struct {
 	Authorization
@@ -61,6 +79,8 @@ type Service struct {
 	ServiceСenters
 	ServiceGroups
 	ServiceProducers
+	ServiceItems
+	Slots
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -71,6 +91,7 @@ func NewService(repos *repository.Repository) *Service {
 		ServiceСenters:NewServiceСentersService(repos.ServiceСenters),
 		ServiceGroups:NewServiceGroupsServic(repos.ServiceGroups),
 		ServiceProducers: NewServiceProducersService(repos.ServiceProducers),
-		
+		ServiceItems:NewServiceItemsService(repos.ServiceItems),
+		Slots:NewSlotsService(repos.Slots),
 	}
 }

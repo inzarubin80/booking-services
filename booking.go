@@ -1,5 +1,6 @@
 package booking
-import "errors"
+import ("errors"
+"time")
 
 type TypeBusiness struct {
     TypeBusinessID         int64    `json:"TypeBusinessID" db:"TypeBusinessID"`
@@ -89,11 +90,58 @@ type ServiceProducers struct {
 	ServiceProducerID      int    `json:"ServiceProducerID" db:"ServiceProducerID"`
 	ServiceProducerName    string `json:"ServiceProducerName" binding:"ServiceProducerName"`
 	Description string `json:"Description" binding:"Description"`
-	MarkDeletion string `json:"MarkDeletion" binding:"MarkDeletion"`
+	MarkDeletion bool `json:"MarkDeletion" binding:"MarkDeletion"`
     ServiceCenterID string `json:"ServiceCenterID" binding:"ServiceCenterID"`
 }
 
 type UpdateServiceProducersInput struct {
     ServiceProducerName int64 `json:"ServiceProducerName" db:"ServiceProducerName"`  
     Description   string `json:"Description" db:"Description"`
+}
+
+type ServiceItems struct {
+	ServiceID      int    `json:"ServiceID" db:"ServiceID"`
+    ServiceItemsName string `json:"ServiceItemsName" db:"ServiceItemsName"`  
+    Description    string `json:"Description" binding:"Description"`
+    ServiceCenterID    string `json:"ServiceCenterID" binding:"ServiceCenterID"`
+    UnitPrice    int `json:"UnitPrice" binding:"UnitPrice"`
+    DurationMinutes    string `json:"DurationMinutes" binding:"DurationMinutes"`
+    MarkDeletion    bool `json:"MarkDeletion" binding:"MarkDeletion"`
+    ServiceGroupID    int `json:"ServiceGroupID]" binding:"ServiceGroupID]"` 
+}
+
+type UpdateServiceItemsInput struct {
+    ServiceItemsName string `json:"ServiceItemsName" db:"ServiceItemsName"`  
+    Description string `json:"Description" db:"Description"`  
+    UnitPrice   int `json:"UnitPrice" db:"UnitPrice"`
+    DurationMinutes   int `json:"DurationMinutes" db:"DurationMinutes"`
+    ServiceGroupID   int  `json:"ServiceGroupID" db:"ServiceGroupID"`
+}
+
+type Slots struct {
+	SlotID      int    `json:"SlotID" db:"SlotID"`
+    SlotName string `json:"SlotName" db:"SlotName"`  
+    ServiceСenterID int `json:"ServiceСenterID" db:"ServiceСenterID"`  
+    ServiceGroupID int `json:"ServiceGroupID" db:"ServiceGroupID"`  
+    ServiceItemsID int `json:"ServiceItemsID" db:"ServiceItemsID"` 
+    ServiceProducerID int `json:"ServiceProducerID" db:"ServiceProducerID"`
+    Date time.Time `json:"Date" db:"Date"` 
+    StartTime time.Time `json:"StartTime" db:"StartTime"` 
+    EndTime time.Time `json:"EndTime" db:"EndTime"`
+    AvailableCapacity int `json:"AvailableCapacity" db:"AvailableCapacity"`  
+    Description string `json:"Description" db:"Description"`  
+}
+
+type UpdateSlotsInput struct {
+    ServiceItemsName string `json:"ServiceItemsName" db:"ServiceItemsName"`  
+    UnitPrice   int `json:"UnitPrice" db:"UnitPrice"`
+    DurationMinutes   int `json:"DurationMinutes" db:"DurationMinutes"`
+    ServiceGroupID   int  `json:"ServiceGroupID" db:"ServiceGroupID"`
+    ServiceItemsID int `json:"ServiceItemsID" db:"ServiceItemsID"` 
+    ServiceProducerID int `json:"ServiceProducerID" db:"ServiceProducerID"`
+    Date time.Time `json:"Date" db:"Date"` 
+    StartTime time.Time `json:"StartTime" db:"StartTime"` 
+    EndTime time.Time `json:"EndTime" db:"EndTime"`
+    AvailableCapacity int `json:"AvailableCapacity" db:"AvailableCapacity"`  
+    Description string `json:"Description" db:"Description"`  
 }

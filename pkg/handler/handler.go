@@ -63,17 +63,37 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			serviceGroups.DELETE("/:id", h.deleteServiceGroup)
 		}
 		
-
-		serviceProducers := api.Group("/serviceGroups")
+		serviceProducers := api.Group("/serviceProducers")
 		{
 			serviceProducers.POST("/", h.createServiceProducer)
 			serviceProducers.GET("/", h.getAllServiceProducers)
-			serviceProducers.GET("/:id", h.getServiceGroupById)
+			serviceProducers.GET("/:id", h.getServiceProducerById)
 			serviceProducers.PUT("/:id", h.updateServiceProducers)
 			serviceProducers.DELETE("/:id", h.deleteServiceProducer)
 		}
-		
 
+
+		serviceItems := api.Group("/serviceItems")
+		{
+			serviceItems.POST("/", h.createServiceItem)
+			serviceItems.GET("/", h.getAllServiceItems)
+			serviceItems.GET("/:id", h.getServiceItemById)
+			serviceItems.PUT("/:id", h.updateServiceItems)
+			serviceItems.DELETE("/:id", h.deleteServiceItem)
+		}
+
+
+		slots := api.Group("/slots")
+		{
+			slots.POST("/", h.createSlot)
+			slots.GET("/", h.getAllSlots)
+			slots.GET("/:id", h.getSlotById)
+			slots.PUT("/:id", h.updateSlot)
+			slots.DELETE("/:id", h.deleteSlot)
+		}
+
+		
+		
 	}
 	return router
 }

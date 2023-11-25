@@ -145,3 +145,20 @@ type UpdateSlotsInput struct {
     AvailableCapacity int `json:"AvailableCapacity" db:"AvailableCapacity"`  
     Description string `json:"Description" db:"Description"`  
 }
+
+
+type BookingSlots struct {
+	BookingSlotsID      int    `json:"BookingSlotsID" db:"BookingSlotsID"`  
+    SlotID int `json:"SlotID" db:"SlotID"`  
+    UserID int `json:"UserID" db:"UserID"`  
+    ServiceID int `json:"ServiceID" db:"ServiceID"` 
+    MarkDeletion    bool `json:"MarkDeletion" binding:"MarkDeletion"`
+    Note string `json:"Note" db:"Note"`  
+
+}
+
+type BookingSlotsInput struct {
+    ServiceID int `json:"ServiceID" db:"ServiceID"` 
+    MarkDeletion    bool `json:"MarkDeletion" binding:"MarkDeletion"`
+    Note string `json:"Note" db:"Note"`  
+}

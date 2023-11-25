@@ -1,10 +1,10 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
 	"github.com/inzarubin80/booking-services"
 	"github.com/jmoiron/sqlx"
-	"errors"
 )
 
 type BookingSlotsMSSQL struct {
@@ -16,7 +16,7 @@ func NewBookingSlotsMSSQL(db *sqlx.DB) *BookingSlotsMSSQL {
 }
 
 func (r *BookingSlotsMSSQL) Create(item booking.BookingSlots) (int, error) {
-	
+
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -32,8 +32,8 @@ func (r *BookingSlotsMSSQL) Create(item booking.BookingSlots) (int, error) {
 			Where 
 				BookingSlots.SlotID = $1
 			Group By
-				Slots.SlotID`;
-	
+				Slots.SlotID`
+
 	var bookingState booking.BookingState
 
 	if err := r.db.Get(&bookingState, query, item.SlotID); err != nil {
@@ -84,4 +84,3 @@ func (r *BookingSlotsMSSQL) Delete(itemId int, markDeletion bool) error {
 	return err
 
 }
-

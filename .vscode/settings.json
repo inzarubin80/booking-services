@@ -1,0 +1,8 @@
+{
+  "yaml.schemas": {
+    "swaggerviewer:swagger": [
+      "file:///c%3A/Users/inzar/booking-services/cmd/docs/swagger.yaml",
+      "file:///c%3A/Users/inzar/booking-services/docs/swagger.yaml"
+    ]
+  }
+}

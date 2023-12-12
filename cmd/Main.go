@@ -13,6 +13,17 @@ import (
 	"github.com/spf13/viper"
 )
 
+// @title Booking Services API
+// @version 1.0
+// @description API Server for Booking Services
+
+// @host localhost:8000
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
 func main() {
 
 	if err := initConfig(); err != nil {
@@ -36,7 +47,6 @@ func main() {
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
-
 	srv := new(booking.Server)
 	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {

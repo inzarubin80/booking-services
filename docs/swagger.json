@@ -1,22 +1,22 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API Server for TodoList Application",
-        "title": "Todo App API",
+        "description": "API Server for Booking Services",
+        "title": "Booking Services API",
         "contact": {},
         "version": "1.0"
     },
     "host": "localhost:8000",
     "basePath": "/",
     "paths": {
-        "/api/lists": {
+        "/api/companies": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get all lists",
+                "description": "get all companies",
                 "consumes": [
                     "application/json"
                 ],
@@ -24,15 +24,15 @@
                     "application/json"
                 ],
                 "tags": [
-                    "lists"
+                    "companies"
                 ],
                 "summary": "Get All Lists",
-                "operationId": "get-all-lists",
+                "operationId": "get-all-companies",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.getAllListsResponse"
+                            "$ref": "#/definitions/handler.getAllCompanies"
                         }
                     },
                     "400": {
@@ -42,69 +42,7 @@
                         }
                     },
                     "404": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "create todo list",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "lists"
-                ],
-                "summary": "Create todo list",
-                "operationId": "create-list",
-                "parameters": [
-                    {
-                        "description": "list info",
-                        "name": "input",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/todo.TodoList"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/handler.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Bad Request",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
@@ -163,7 +101,7 @@
                         }
                     },
                     "404": {
-                        "description": "Bad Request",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
@@ -204,7 +142,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/todo.User"
+                            "$ref": "#/definitions/booking.User"
                         }
                     }
                 ],
@@ -222,7 +160,7 @@
                         }
                     },
                     "404": {
-                        "description": "Bad Request",
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/handler.errorResponse"
                         }
@@ -244,6 +182,51 @@
         }
     },
     "definitions": {
+        "booking.Companies": {
+            "type": "object",
+            "properties": {
+                "CompanieId": {
+                    "type": "integer"
+                },
+                "CompanieName": {
+                    "type": "string"
+                },
+                "MarkDeletion": {
+                    "type": "boolean"
+                },
+                "TIN": {
+                    "type": "string"
+                },
+                "TypeBusinessID": {
+                    "type": "integer"
+                },
+                "UserID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "booking.User": {
+            "type": "object",
+            "required": [
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "Id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.errorResponse": {
             "type": "object",
             "properties": {
@@ -252,13 +235,13 @@
                 }
             }
         },
-        "handler.getAllListsResponse": {
+        "handler.getAllCompanies": {
             "type": "object",
             "properties": {
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/todo.TodoList"
+                        "$ref": "#/definitions/booking.Companies"
                     }
                 }
             }
@@ -270,42 +253,6 @@
                 "username"
             ],
             "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "todo.TodoList": {
-            "type": "object",
-            "required": [
-                "title"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                }
-            }
-        },
-        "todo.User": {
-            "type": "object",
-            "required": [
-                "name",
-                "password",
-                "username"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
                 "password": {
                     "type": "string"
                 },

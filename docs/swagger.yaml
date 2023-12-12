@@ -1,15 +1,45 @@
 basePath: /
 definitions:
+  booking.Companies:
+    properties:
+      CompanieId:
+        type: integer
+      CompanieName:
+        type: string
+      MarkDeletion:
+        type: boolean
+      TIN:
+        type: string
+      TypeBusinessID:
+        type: integer
+      UserID:
+        type: integer
+    type: object
+  booking.User:
+    properties:
+      Id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
   handler.errorResponse:
     properties:
       message:
         type: string
     type: object
-  handler.getAllListsResponse:
+  handler.getAllCompanies:
     properties:
       data:
         items:
-          $ref: '#/definitions/todo.TodoList'
+          $ref: '#/definitions/booking.Companies'
         type: array
     type: object
   handler.signInInput:
@@ -22,56 +52,32 @@ definitions:
     - password
     - username
     type: object
-  todo.TodoList:
-    properties:
-      description:
-        type: string
-      id:
-        type: integer
-      title:
-        type: string
-    required:
-    - title
-    type: object
-  todo.User:
-    properties:
-      name:
-        type: string
-      password:
-        type: string
-      username:
-        type: string
-    required:
-    - name
-    - password
-    - username
-    type: object
 host: localhost:8000
 info:
   contact: {}
-  description: API Server for TodoList Application
-  title: Todo App API
+  description: API Server for Booking Services
+  title: Booking Services API
   version: "1.0"
 paths:
-  /api/lists:
+  /api/companies:
     get:
       consumes:
       - application/json
-      description: get all lists
-      operationId: get-all-lists
+      description: get all companies
+      operationId: get-all-companies
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.getAllListsResponse'
+            $ref: '#/definitions/handler.getAllCompanies'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "404":
-          description: Bad Request
+          description: Not Found
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":
@@ -86,47 +92,7 @@ paths:
       - ApiKeyAuth: []
       summary: Get All Lists
       tags:
-      - lists
-    post:
-      consumes:
-      - application/json
-      description: create todo list
-      operationId: create-list
-      parameters:
-      - description: list info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/todo.TodoList'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: integer
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "404":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Create todo list
-      tags:
-      - lists
+      - companies
   /auth/sign-in:
     post:
       consumes:
@@ -152,7 +118,7 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "404":
-          description: Bad Request
+          description: Not Found
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":
@@ -178,7 +144,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/todo.User'
+          $ref: '#/definitions/booking.User'
       produces:
       - application/json
       responses:
@@ -191,7 +157,7 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "404":
-          description: Bad Request
+          description: Not Found
           schema:
             $ref: '#/definitions/handler.errorResponse'
         "500":

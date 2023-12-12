@@ -7,25 +7,9 @@ import (
 	"github.com/inzarubin80/booking-services"
 )
 
-// @Summary Create todo list
-// @Security ApiKeyAuth
-// @Tags lists
-// @Description create todo list
-// @ID create-list
-// @Accept  json
-// @Produce  json
-// @Param input body todo.TodoList true "list info"
-// @Success 200 {integer} integer 1
-// @Failure 400,404 {object} errorResponse
-// @Failure 500 {object} errorResponse
-// @Failure default {object} errorResponse
-// @Router /api/lists [post]
+
 func (h *Handler) createCompanies(c *gin.Context) {
-	//userId, err := getUserId(c)
-	//if err != nil {
-	//	newErrorResponse(c, http.StatusInternalServerError, err.Error())
-	//	return
-	//}
+
 	var input booking.Companies
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -47,27 +31,21 @@ type getAllCompanies struct {
 	Data []booking.Companies `json:"data"`
 }
 
+
 // @Summary Get All Lists 
 // @Security ApiKeyAuth
-// @Tags lists
-// @Description get all lists
-// @ID get-all-lists
+// @Tags companies
+// @Description get all companies
+// @ID get-all-companies
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} getAllListsResponse
+// @Success 200 {object} getAllCompanies
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse
-// @Router /api/lists [get]
+// @Router /api/companies [get]
 func (h *Handler) getAllCompanies(c *gin.Context) {
-	
-	/*
-	userId, err := getUserId(c)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-	*/
+
 
 	lists, err := h.services.Companies.GetAll()
 	if err != nil {
@@ -80,18 +58,8 @@ func (h *Handler) getAllCompanies(c *gin.Context) {
 	})
 }
 
-// @Summary Get List By Id
-// @Security ApiKeyAuth
-// @Tags lists
-// @Description get list by id
-// @ID get-list-by-id
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} todo.ListItem
-// @Failure 400,404 {object} errorResponse
-// @Failure 500 {object} errorResponse
-// @Failure default {object} errorResponse
-// @Router /api/lists/:id [get]
+
+
 func (h *Handler) getCompaniesById(c *gin.Context) {
 	
 	id, err := strconv.Atoi(c.Param("id"))

@@ -2,7 +2,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/inzarubin80/booking-services/pkg/service"
-	"github.com/swaggo/gin-swagger"
+	 ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/files" 
 	_ "github.com/inzarubin80/booking-services/docs"
 )
@@ -19,6 +19,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	router := gin.New()
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	
 	auth := router.Group("/auth")
 	{
 		auth.POST("/sign-up", h.signUp)

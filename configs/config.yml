@@ -2,7 +2,7 @@ port: "8000"
 
 db:
     username: "userService"
-    host: 'LAPTOP-E5NQ8N3L'
+    host: 'Localhost'
     instance: 'SQL2022'
     port: ""
     dbname: "BookingServices"

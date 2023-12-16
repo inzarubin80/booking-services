@@ -22,7 +22,8 @@ func (r *ServiceGroupsMSSQL) Create(item booking.ServiceGroups) (int, error) {
 	var ServiceGroupID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(ServiceGroupName, Description, TypeBusinessID) 
-	values ($1, $2, $3) RETURNING ServiceGroupID`, serviceGroupsTable)
+	OUTPUT Inserted.ServiceGroupID
+	values ($1, $2, $3)`, serviceGroupsTable)
 	row := tx.QueryRow(createItemQuery, item.ServiceGroupName, item.Description, item.TypeBusinessID)
 	err = row.Scan(&ServiceGroupID)
 	if err != nil {

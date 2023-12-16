@@ -47,8 +47,9 @@ func (r *BookingSlotsMSSQL) Create(item booking.BookingSlots) (int, error) {
 	var BookingSlotsID int
 	createItemQuery := fmt.Sprintf(`
 	INSERT INTO %s 
-	(Note, ServiceID, SlotID, UserID) 
-	values ($1, $2, $3, $4) RETURNING BookingSlotsID`, bookingSlotsTable)
+	(Note, ServiceID, SlotID, UserID)
+	OUTPUT Inserted.BookingSlotsID 
+	values ($1, $2, $3, $4)`, bookingSlotsTable)
 	row := tx.QueryRow(createItemQuery, item.Note, item.ServiceID, item.SlotID, item.UserID)
 	err = row.Scan(&BookingSlotsID)
 	if err != nil {

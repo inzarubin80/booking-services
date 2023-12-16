@@ -49,12 +49,11 @@ type ServiceСenters struct {
     ServiceСentreName   string `json:"ServiceСentreName" db:"ServiceСentreName"`
     CompanieId  int64  `json:"CompanieId" db:"CompanieId"`
     MarkDeletion    bool   `json:"MarkDeletion" db:"MarkDeletion"`
-    Location string `json:"Location" db:"Location"`
 }
 
 type UpdateServiceСentersInput struct {
     ServiceСentreName   string `json:"ServiceСentreName" db:"ServiceСentreName"`
-    Location string `json:"Location" db:"Location"`
+
 }
 
 type ServiceGroups struct {

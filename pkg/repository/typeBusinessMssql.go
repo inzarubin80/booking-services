@@ -23,12 +23,13 @@ func (r *TypeBusinessMSSQL) Create(item booking.TypeBusiness) (int, error) {
 	var TypeBusinessID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(TypeBusinessName, Description, NameServiceProducers, UseMultipleSlotBooking, MarkDeletion, UseSelectSlotService) 
-	values ($1, $2, $3,$4,$5,$6) RETURNING TypeBusinessID`, typeBusinessTable)
+	OUTPUT Inserted.TypeBusinessID
+	values ($1, $2, $3,$4,$5,$6)`, typeBusinessTable)
 	row := tx.QueryRow(createItemQuery, item.TypeBusinessName, item.Description, item.NameServiceProducers, item.UseMultipleSlotBooking, item.MarkDeletion, item.UseSelectSlotService)
 	err = row.Scan(&TypeBusinessID)
 	if err != nil {
 		tx.Rollback()
-		return 0, err
+		return 0, err		
 	}
 	return TypeBusinessID, tx.Commit()
 }

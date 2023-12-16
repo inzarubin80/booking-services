@@ -22,7 +22,8 @@ func (r *CompaniesMSSQL) Create(item booking.Companies) (int, error) {
 	var CompanieId int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(CompanieName, TIN, MarkDeletion, UserID,TypeBusinessID) 
-	values ($1, $2) RETURNING CompanieId`, companiesTable)
+	OUTPUT Inserted.CompanieId
+	values ($1, $2)`, companiesTable)
 	row := tx.QueryRow(createItemQuery, item.CompanieName, item.TIN, item.UserID, item.TypeBusinessID)
 	err = row.Scan(&CompanieId)
 	if err != nil {

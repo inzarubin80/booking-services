@@ -15,6 +15,7 @@ func NewServiceСentersMSSQL(db *sqlx.DB) *ServiceСentersMSSQL {
 }
 
 func (r *ServiceСentersMSSQL) Create(item booking.ServiceСenters) (int, error) {
+	
 	tx, err := r.db.Begin()
 	if err != nil {
 		return 0, err
@@ -22,20 +23,22 @@ func (r *ServiceСentersMSSQL) Create(item booking.ServiceСenters) (int, error)
 
 	var ServiceСenterID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
-	(ServiceСentreName, CompanieId, Location) 
-	values ($1, $2, $3) RETURNING ServiceСenterID`, serviceСentersTable)
-	row := tx.QueryRow(createItemQuery, item.ServiceСentreName, item.CompanieId, item.Location)
+	(CompanieId, MarkDeletion, ServiceСentreName) 
+	OUTPUT Inserted.ServiceСenterID
+	values ($1, $2, $3)`, serviceСentersTable)
+	row := tx.QueryRow(createItemQuery, item.CompanieId, item.MarkDeletion, item.ServiceСentreName)
 	err = row.Scan(&ServiceСenterID)
 	if err != nil {
 		tx.Rollback()
-		return 0, err
+		return 0, err		
 	}
 	return ServiceСenterID, tx.Commit()
+
 }
 
 func (r *ServiceСentersMSSQL) GetAll() ([]booking.ServiceСenters, error) {
 	var items []booking.ServiceСenters
-	query := fmt.Sprintf(`SELECT ServiceСenterID, ServiceСentreName, CompanieId, Location FROM %s WHERE MarkDeletion=0`, serviceСentersTable)
+	query := fmt.Sprintf(`SELECT ServiceСenterID, ServiceСentreName, CompanieId FROM %s WHERE MarkDeletion=0`, serviceСentersTable)
 	if err := r.db.Select(&items, query); err != nil {
 		return nil, err
 	}
@@ -45,7 +48,7 @@ func (r *ServiceСentersMSSQL) GetAll() ([]booking.ServiceСenters, error) {
 func (r *ServiceСentersMSSQL) GetById(itemId int) (booking.ServiceСenters, error) {
 	var item booking.ServiceСenters
 
-	query := fmt.Sprintf(`SELECT ServiceСenterID, ServiceСentreName, CompanieId, Location FROM %s WHERE ServiceСenterID = $1`, serviceСentersTable)
+	query := fmt.Sprintf(`SELECT ServiceСenterID, ServiceСentreName, CompanieId FROM %s WHERE ServiceСenterID = $1`, serviceСentersTable)
 	if err := r.db.Get(&item, query, itemId); err != nil {
 		return item, err
 	}
@@ -64,9 +67,8 @@ func (r *ServiceСentersMSSQL) Update(id int, item booking.UpdateServiceСenters
 	
 	query := fmt.Sprintf(`UPDATE %s  
 	SET ServiceСentreName = $1, 
-	Location = $2,
-	WHERE ServiceСenterID = $3`,serviceСentersTable)
-	_, err := r.db.Exec(query, item.ServiceСentreName, item.Location, id)
+	WHERE ServiceСenterID = $2`,serviceСentersTable)
+	_, err := r.db.Exec(query, item.ServiceСentreName,  id)
 	return err
 
 }

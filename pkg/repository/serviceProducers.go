@@ -23,7 +23,7 @@ func (r *ServiceProducersMSSQL) Create(item booking.ServiceProducers) (int, erro
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(ServiceProducerName, Description, MarkDeletion, ServiceCenterID) 
 	OUTPUT Inserted.ServiceProducerID
-	values ($1, $2, $3)`, serviceProducersTable)
+	values ($1, $2, $3, $4)`, serviceProducersTable)
 	row := tx.QueryRow(createItemQuery, item.ServiceProducerName, item.Description, item.MarkDeletion, item.ServiceCenterID)
 	err = row.Scan(&ServiceProducerID)
 	if err != nil {
@@ -35,7 +35,7 @@ func (r *ServiceProducersMSSQL) Create(item booking.ServiceProducers) (int, erro
 
 func (r *ServiceProducersMSSQL) GetAll() ([]booking.ServiceProducers, error) {
 	var items []booking.ServiceProducers
-	query := fmt.Sprintf(`SELECT ServiceProducerID, ServiceProducerName, Description, MarkDeletion, ServiceCenterID FROM %s WHERE MarkDeletion=0`, serviceProducersTable)
+	query := fmt.Sprintf(`SELECT ServiceProducerID, ServiceProducerName,Description, MarkDeletion, ServiceCenterID FROM %s WHERE MarkDeletion=0`, serviceProducersTable)
 	if err := r.db.Select(&items, query); err != nil {
 		return nil, err
 	}

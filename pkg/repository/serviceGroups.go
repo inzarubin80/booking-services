@@ -21,10 +21,10 @@ func (r *ServiceGroupsMSSQL) Create(item booking.ServiceGroups) (int, error) {
 	}
 	var ServiceGroupID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
-	(ServiceGroupName, Description, TypeBusinessID) 
+	(ServiceGroupName, Description, TypeBusinessID, MarkDeletion) 
 	OUTPUT Inserted.ServiceGroupID
-	values ($1, $2, $3)`, serviceGroupsTable)
-	row := tx.QueryRow(createItemQuery, item.ServiceGroupName, item.Description, item.TypeBusinessID)
+	values ($1, $2, $3, $4)`, serviceGroupsTable)
+	row := tx.QueryRow(createItemQuery, item.ServiceGroupName, item.Description, item.TypeBusinessID, item.MarkDeletion)
 	err = row.Scan(&ServiceGroupID)
 	if err != nil {
 		tx.Rollback()

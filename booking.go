@@ -58,7 +58,7 @@ type UpdateServiceСentersInput struct {
 
 type ServiceGroups struct {
     ServiceGroupID int64 `json:"ServiceGroupID" db:"ServiceGroupID"`
-    ServiceGroupName int64 `json:"ServiceGroupName" db:"ServiceGroupName"`  
+    ServiceGroupName string `json:"ServiceGroupName" db:"ServiceGroupName"`  
     Description   string `json:"Description" db:"Description"`
     MarkDeletion    bool `json:"MarkDeletion" db:"MarkDeletion"`
     TypeBusinessID int64 `json:"TypeBusinessID" db:"TypeBusinessID"`
@@ -80,17 +80,17 @@ func (i UpdateTypeBusinessInput) Validate() error {
 
 type User struct {
 	Id       int    `json:"Id" db:"id"`
-	Name     string `json:"name" binding:"required"`
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Name     string `json:"name" db:"required"`
+	Username string `json:"username" db:"required"`
+	Password string `json:"password" db:"required"`
 }
 
 type ServiceProducers struct {
-	ServiceProducerID      int    `json:"ServiceProducerID" db:"ServiceProducerID"`
-	ServiceProducerName    string `json:"ServiceProducerName" binding:"ServiceProducerName"`
-	Description string `json:"Description" binding:"Description"`
-	MarkDeletion bool `json:"MarkDeletion" binding:"MarkDeletion"`
-    ServiceCenterID string `json:"ServiceCenterID" binding:"ServiceCenterID"`
+	ServiceProducerID  int    `json:"ServiceProducerID" db:"ServiceProducerID"`
+	ServiceProducerName string `json:"ServiceProducerName" db:"ServiceProducerName"`
+	Description string `json:"Description" db:"Description"`
+	MarkDeletion bool `json:"MarkDeletion" db:"MarkDeletion"`
+    ServiceCenterID int64 `json:"ServiceCenterID" db:"ServiceCenterID"`
 }
 
 type UpdateServiceProducersInput struct {
@@ -101,12 +101,12 @@ type UpdateServiceProducersInput struct {
 type ServiceItems struct {
 	ServiceID      int    `json:"ServiceID" db:"ServiceID"`
     ServiceItemsName string `json:"ServiceItemsName" db:"ServiceItemsName"`  
-    Description    string `json:"Description" binding:"Description"`
-    ServiceCenterID    string `json:"ServiceCenterID" binding:"ServiceCenterID"`
+    Description    string `json:"Description" db:"Description"`
+    ServiceCenterID    int64 `json:"ServiceCenterID" db:"ServiceCenterID"`
     UnitPrice    int `json:"UnitPrice" binding:"UnitPrice"`
-    DurationMinutes    string `json:"DurationMinutes" binding:"DurationMinutes"`
-    MarkDeletion    bool `json:"MarkDeletion" binding:"MarkDeletion"`
-    ServiceGroupID    int `json:"ServiceGroupID]" binding:"ServiceGroupID]"` 
+    DurationMinutes    string `json:"DurationMinutes" db:"DurationMinutes"`
+    MarkDeletion    bool `json:"MarkDeletion" db:"MarkDeletion"`
+    ServiceGroupID    int `json:"ServiceGroupID]" db:"ServiceGroupID]"` 
 }
 
 type UpdateServiceItemsInput struct {

@@ -21,18 +21,18 @@ func (r *BookingSlotsMSSQL) Create(item booking.BookingSlots) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	query := `Select 
-				isNUll(Count(BookingSlotsID), 0) as NumberBookings
-				,Min(Slots.AvailableCapacity) as AvailableCapacity 
-				,Slots.SlotID 
-			from BookingSlots as BookingSlots 
-				join Slots as Slots on
-					BookingSlots.SlotID = Slots.SlotID
-					AND BookingSlots.MarkDeletion = 0
-			Where 
-				BookingSlots.SlotID = $1
-			Group By
-				Slots.SlotID`
+	query := ` Select 
+	isNUll(Count(BookingSlotsID), 0) as NumberBookings
+	,Min(Slots.AvailableCapacity) as AvailableCapacity 
+	,Slots.SlotID 
+from Slots  as Slots 
+	left join BookingSlots as BookingSlots on
+		BookingSlots.SlotID = Slots.SlotID
+		AND BookingSlots.MarkDeletion = 0
+Where 
+	Slots.SlotID = $1
+Group By
+	Slots.SlotID`
 
 	var bookingState booking.BookingState
 
@@ -45,12 +45,12 @@ func (r *BookingSlotsMSSQL) Create(item booking.BookingSlots) (int, error) {
 	}
 
 	var BookingSlotsID int
-	createItemQuery := fmt.Sprintf(`
-	INSERT INTO %s 
-	(Note, ServiceID, SlotID, UserID)
+	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
+	(Note,  SlotID, UserID, MarkDeletion)
 	OUTPUT Inserted.BookingSlotsID 
 	values ($1, $2, $3, $4)`, bookingSlotsTable)
-	row := tx.QueryRow(createItemQuery, item.Note, item.ServiceID, item.SlotID, item.UserID)
+
+	row := tx.QueryRow(createItemQuery, item.Note, item.SlotID, item.UserID, 0)
 	err = row.Scan(&BookingSlotsID)
 	if err != nil {
 		tx.Rollback()

@@ -149,8 +149,7 @@ type BookingSlots struct {
 	BookingSlotsID      int    `json:"BookingSlotsID" db:"BookingSlotsID"`  
     SlotID int `json:"SlotID" db:"SlotID"`  
     UserID int `json:"UserID" db:"UserID"`  
-    ServiceID int `json:"ServiceID" db:"ServiceID"` 
-    MarkDeletion    bool `json:"MarkDeletion" binding:"MarkDeletion"`
+    MarkDeletion    bool `json:"MarkDeletion" db:"MarkDeletion"`
     Note string `json:"Note" db:"Note"`  
 
 }

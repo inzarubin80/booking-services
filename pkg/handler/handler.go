@@ -93,6 +93,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			slots.DELETE("/:id", h.deleteSlot)
 		}
 
+		bookingSlots := api.Group("/bookingSlots")
+		{
+			bookingSlots.POST("/", h.createBookingSlots)
+		}
 		
 		
 	}

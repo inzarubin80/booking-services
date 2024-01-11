@@ -71,6 +71,9 @@ type Slots interface {
 }
 
 
+type BookingSlots interface {
+	Create(item booking.BookingSlots) (int, error)
+}
 
 type Service struct {
 	Authorization
@@ -81,6 +84,7 @@ type Service struct {
 	ServiceProducers
 	ServiceItems
 	Slots
+	BookingSlots
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -93,5 +97,6 @@ func NewService(repos *repository.Repository) *Service {
 		ServiceProducers: NewServiceProducersService(repos.ServiceProducers),
 		ServiceItems:NewServiceItemsService(repos.ServiceItems),
 		Slots:NewSlotsService(repos.Slots),
+		BookingSlots:NewServiceBookingSlots(repos.BookingSlots),
 	}
 }

@@ -23,7 +23,8 @@ func (r *SlotsMSSQL) Create(item booking.Slots) (int, error) {
 	var SlotID int
 	createItemQuery := fmt.Sprintf(`INSERT INTO %s 
 	(SlotName, ServiceСenterID, ServiceGroupID, ServiceProducerID, Date, StartTime, EndTime, AvailableCapacity, Description, ServiceItemsID) 
-	values ($1, $2, $3,$4,$5,$6,$7,$8,$9) RETURNING SlotID`, slotsTable)
+	OUTPUT Inserted.SlotID 
+	values ($1, $2, $3,$4,$5,$6,$7,$8,$9,$10)`, slotsTable)
 	row := tx.QueryRow(createItemQuery, item.SlotName, item.ServiceСenterID,  item.ServiceGroupID, item.ServiceProducerID,  item.Date, item.StartTime,   item.EndTime,  item.AvailableCapacity, item.Description, item.ServiceItemsID)
 	err = row.Scan(&SlotID)
 	if err != nil {

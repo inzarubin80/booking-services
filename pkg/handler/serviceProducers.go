@@ -18,8 +18,9 @@ func (h *Handler) createServiceProducer(c *gin.Context) {
 
 	id, err := h.services.ServiceProducers.Create(input)
 	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
+		
+		 newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		 return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{

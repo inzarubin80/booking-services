@@ -12,7 +12,7 @@ const (
 	serviceGroupsTable = "ServiceGroups"
 	serviceProducersTable = "ServiceProducers"
 	serviceItemsTable = "ServiceItems"
-	slotsTable = "SlotsTable"
+	slotsTable = "Slots"
 	bookingSlotsTable = "bookingSlots"
 	
 )

@@ -1,5 +1,18 @@
 basePath: /
 definitions:
+  booking.BookingSlots:
+    properties:
+      BookingSlotsID:
+        type: integer
+      MarkDeletion:
+        type: boolean
+      Note:
+        type: string
+      SlotID:
+        type: integer
+      UserID:
+        type: integer
+    type: object
   booking.Companies:
     properties:
       CompanieId:
@@ -25,10 +38,6 @@ definitions:
         type: string
       username:
         type: string
-    required:
-    - name
-    - password
-    - username
     type: object
   handler.errorResponse:
     properties:
@@ -59,6 +68,42 @@ info:
   title: Booking Services API
   version: "1.0"
 paths:
+  /api/bookingSlots:
+    post:
+      consumes:
+      - application/json
+      description: slot reservation
+      parameters:
+      - description: Booking Slots
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingSlots'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Booking slots
+      tags:
+      - BookingSlots
   /api/companies:
     get:
       consumes:

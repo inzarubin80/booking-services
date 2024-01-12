@@ -15,6 +15,63 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/bookingSlots": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "slot reservation",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BookingSlots"
+                ],
+                "summary": "Booking slots",
+                "parameters": [
+                    {
+                        "description": "Booking Slots",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/booking.BookingSlots"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/companies": {
             "get": {
                 "security": [
@@ -188,6 +245,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "booking.BookingSlots": {
+            "type": "object",
+            "properties": {
+                "BookingSlotsID": {
+                    "type": "integer"
+                },
+                "MarkDeletion": {
+                    "type": "boolean"
+                },
+                "Note": {
+                    "type": "string"
+                },
+                "SlotID": {
+                    "type": "integer"
+                },
+                "UserID": {
+                    "type": "integer"
+                }
+            }
+        },
         "booking.Companies": {
             "type": "object",
             "properties": {
@@ -213,11 +290,6 @@ const docTemplate = `{
         },
         "booking.User": {
             "type": "object",
-            "required": [
-                "name",
-                "password",
-                "username"
-            ],
             "properties": {
                 "Id": {
                     "type": "integer"
